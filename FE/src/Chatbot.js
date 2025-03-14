@@ -91,7 +91,7 @@ function ChatBot() {
     setChatHistory([{ sender: "bot", text: "Đang gọi Cô Đồng" }]);
     try {
       const response = await axios.post(
-        "http://10.10.3.246:5001/thread",
+        "https://peculiar-morgan-kbkoyeb-76fef412.koyeb.app/thread",
         { sessionID: currentSessionId },
         { withCredentials: false }
       );
@@ -126,7 +126,7 @@ function ChatBot() {
         { sender: "user", text: userMessage || suggestionText },
       ]);
       setMessage("");
-      const { data } = await axios.post("http://10.10.3.246:5001/message", {
+      const { data } = await axios.post("https://peculiar-morgan-kbkoyeb-76fef412.koyeb.app/message", {
         threadID,
         message: userMessage,
       });
