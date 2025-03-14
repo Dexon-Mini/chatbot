@@ -101,7 +101,7 @@ def message():
     threadID = request.json.get('threadID')
     message = request.json.get('message')
     
-    if len(message) > 100:
+    if message and len(message) > 100:
         return jsonify({"reply": "Vui lòng nhập một câu dưới 100 ký tự."})
     if not is_valid_vietnamese_sentence(message):
         return jsonify({"reply": "Vui lòng nhập một câu có nội dung hợp lý."})
