@@ -4,6 +4,7 @@ from flask_cors import CORS
 import langid
 import re
 import datetime
+import os
 
 
 def is_vietnamese(word):
@@ -44,9 +45,10 @@ def process_today(text):
     return f"Hôm nay ngày: {datetime.date.today().strftime("%Y-%m-%d")}, {text}" 
     # return text
 
+secret_value = os.environ.get("openAPI", "No secret found")
 
 client = OpenAI(
-    api_key='openAPI'
+    api_key=f"{secret_value}"
 )
 
 prompt_default = """
