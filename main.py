@@ -46,7 +46,7 @@ def process_today(text):
 
 
 client = OpenAI(
-    api_key='sk-svcacct-2qa1pZnzMQPQsvYGfDnF7qPjGTZBa1v_Uqz6caxqYUS3BCojQhLPi6wsTAzTFAPYD6zT3BlbkFJad_FvwjCHCvCY3DiiMTNTlSGsiwpjqetdQ01fwFW7L-VWqAVPmVARQAl-XUISi_-SAA'
+    api_key='openAPI'
 )
 
 prompt_default = """
