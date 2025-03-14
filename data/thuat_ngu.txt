@@ -1,0 +1,26 @@
+Các thuật ngữ khi chơi soi cầu lô đề
+
+1.	Đánh lô, bao lô
+    Đánh lô là việc bạn dự đoán đúng 2 hay 3 con số cuối của tổng các giải số kiến thiết trong ngày. Ví dụ: Bạn đoán 2 số cuối của 27 giải xổ số kiến thiết miền Bắc hoặc 18 giải xổ số kiến thiết miền Trung, miền Nam trong ngày.
+2.	Đánh đề
+    Đánh đề là khái niệm chỉ kèo đoán kết quả 2 hay 3 số cuối của giải đặc biệt. Nếu đánh đề 2 số cuối thì còn gọi là đề 2 càng, đề đuôi. Còn đánh đề 3 số cuối thì gọi là đánh lô 3 càng.
+3.	Xỉu chủ là gì?
+    – Xỉu chủ đơn giản là một cách đánh các con số có 3 chữ số (000-999), khác với chơi lô chỉ đánh số có 2 chữ số (00 – 99).
+    – Xỉu chủ và lô càng miền Bắc có chút khác biệt. Khi xỉu chủ có 3 cách chơi, còn lô 3 càng chỉ trúng khi trùng 3 số cuối cùng của giải đặc biệt.
+    – Có thể kể ra 3 cách đánh xỉu chủ miền Nam:
+        •	Xỉu chủ đầu: Đơn giản là đánh những con 3 chữ số (000-999) trúng với giải có 3 chữ số đầu tiên của miền Nam đó là giải 7 thì thắng.
+        •	Xỉu chủ đuôi: Tương tự như xỉu chủ đầu là trúng số đầu (của 3 chữ số) thì xỉu chủ đuôi là trúng số đuôi (số cuối cùng) tức là trúng ở giải đặc biệt. Đây chính là cách chơi mà người miền Bắc gọi là lô 3 càng.
+        •	Xỉu chủ đầu đuôi: Bao lô xỉu chủ cũng có thể gọi là xỉu chủ đầu đuôi. Đó là cách chơi bao luôn cả giải 7 và giải đặc biệt. Nếu số của bạn trùng với số của giải 7 hoặc giải đặc biệt thì bạn thắng, nếu trúng cả 2 giải thì số tiền được gấp đôi.
+4.	Lô xiên
+	•	Lô xiên: là hình thức cá cược, dự đoán 2-3-4 cặp số sẽ về cùng trong bảng kết quả xổ số. Phải đoán đúng toàn bộ thì người chơi mới được xem là trúng thưởng.
+	•	Lô xiên quay: là hình thức đoán xiên 3 hoặc xiên 4. Trong đó, nếu người chơi trượt 1 đến 2 số thì vẫn trúng thưởng.
+	•	Lô xiên trượt: hay còn gọi là lô xiên hụt. Đây là hình thức đoán các cặp số sẽ không nổ trong bảng kết quả mở thưởng. Chơi lô xiên trượt dễ trúng thưởng hơn nhiều so với các hình thức chơi xiên khác.
+5.	Bạch thủ lô – Song thủ lô
+    - Bạch thủ lô (độc thủ lô) là 1 cách thức chơi lô đề dựa trên việc đánh vào 1 số hấp dẫn nhất trong bảng số 00-99. 
+    - Song thủ lô nghĩa là người chơi đặt cược 2 con số trong bảng số 00-99 có khả năng trúng cao nhất để chơi trong ngày. Chỉ cần 1 trong 2 con số đó về là người chơi sẽ thắng. Cách chơi song thủ lô khác chơi lô xiên 2 ở chỗ để thắng lô xiên 2 cần phải trúng đồng thời cả 2 con, nhưng với song thủ lô thì chỉ cần 1 trong 2 con về là thắng.
+6.	Chạm trong lô đề
+    Chạm trong lô đề là tập hợp các con số có ít nhất 1 chữ số giống nhau. Ví dụ: 51, 52, 53, 54, 55, 56, 57, 58, 59, 95, 85, 75, 65, 45, 35, 25, 15, 05, 50.
+7.	Lô đề tổng
+    Lô đề tổng là tập hợp các con số có 2 chữ số mà khi tổng của 2 số đó cộng lại có kết quả như nhau. Tổng trong lô đề có tất cả 10 tổng từ 0 cho đến 9.
+8.	Lô câm
+    Lô câm (đầu đuôi câm) là một con số nào đó không xuất hiện trong bảng kết quả xổ số và thống kê đầu đuôi lô tô trong ngày. Một bảng kết quả có thể vừa có đầu câm, vừa có đuôi câm hoặc cả đầu và đuôi.
