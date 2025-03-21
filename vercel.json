@@ -1,0 +1,27 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "api/main.py",
+      "use": "@vercel/python"
+    },
+    {
+      "src": "FE/package.json",
+      "use": "@vercel/static-build"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/thread",
+      "dest": "api/main.py"
+    },
+    {
+      "src": "/message",
+      "dest": "api/main.py"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "FE/build/$1"
+    }
+  ]
+}

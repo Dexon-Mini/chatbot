@@ -3,3 +3,4 @@ Flask-Cors==5.0.0
 langid==1.1.6
 openai==1.63.2
 gunicorn
+serverless-wsgi

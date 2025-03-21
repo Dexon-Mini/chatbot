@@ -151,5 +151,12 @@ def message():
             break
 
 
-if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5001, debug=True)
+# Remove or comment out this block for Vercel deployment
+# if __name__ == '__main__':
+#     app.run(host='0.0.0.0', port=5001, debug=True)
+
+# --- Add the serverless handler below ---
+from serverless_wsgi import handle_request
+
+def handler(event, context):
+    return handle_request(app, event, context)
