@@ -23,8 +23,12 @@
       "dest": "main.py"
     },
     {
+      "src": "/static/(.*)",
+      "dest": "FE/build/static/$1"
+    },
+    {
       "src": "/(.*)",
-      "dest": "FE/build/$1"
+      "dest": "FE/build/index.html"
     }
   ]
 }
