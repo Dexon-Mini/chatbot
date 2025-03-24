@@ -2,11 +2,11 @@
   "version": 2,
   "builds": [
     {
-      "src": "main.py",
+      "src": "api/main.py",
       "use": "@vercel/python"
     },
     {
-      "src": "FE/package.json",
+      "src": "package.json",
       "use": "@vercel/static-build",
       "config": {
         "distDir": "build"
@@ -16,19 +16,19 @@
   "routes": [
     {
       "src": "/thread",
-      "dest": "main.py"
+      "dest": "api/main.py"
     },
     {
       "src": "/message",
-      "dest": "main.py"
+      "dest": "api/main.py"
     },
     {
       "src": "/static/(.*)",
-      "dest": "FE/build/static/$1"
+      "dest": "build/static/$1"
     },
     {
       "src": "/(.*)",
-      "dest": "FE/build/index.html"
+      "dest": "build/index.html"
     }
   ]
 }

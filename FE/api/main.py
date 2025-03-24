@@ -5,8 +5,11 @@ import langid
 import re
 import datetime
 import os
+from serverless_wsgi import handle_request
 
+secret_value = os.environ.get("openAPI", "No secret found")
 
+client = OpenAI(api_key=secret_value)
 def is_vietnamese(word):
     lang, _ = langid.classify(word)
     return lang == 'vi'
@@ -44,12 +47,6 @@ def process_today(text):
         # Return today's date in "YYYY-MM-DD" format (excluding time)
     return f"Hôm nay ngày: {datetime.date.today().strftime("%Y-%m-%d")}, {text}" 
     # return text
-
-secret_value = os.environ.get("openAPI", "No secret found")
-
-client = OpenAI(
-    api_key=f"{secret_value}"
-)
 
 prompt_default = """
     Hãy gợi ý một bạch thủ lô, một lô 3 càng (xỉu chủ) và một lô xiên 2, kèm phân tích ngắn gọn kích thích người chơi chọn số.
@@ -154,9 +151,6 @@ def message():
 # Remove or comment out this block for Vercel deployment
 # if __name__ == '__main__':
 #     app.run(host='0.0.0.0', port=5001, debug=True)
-
-# --- Add the serverless handler below ---
-from serverless_wsgi import handle_request
 
 def handler(event, context):
     return handle_request(app, event, context)
