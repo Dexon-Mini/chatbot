@@ -90,7 +90,7 @@ function ChatBot() {
     setRemainingQueries(getRemainingQueries());
     // Open the chatbox immediately and show a connecting message.
     setIsChatOpen(true);
-    setChatHistory([{ sender: "bot", text: "Đang gọi Cô Đồng" }]);
+    setChatHistory([{ sender: "bot", text: "Triệu hồi Thần đề luận số" }]);
     try {
       const response = await axios.post(
         BE_domain + "/thread",
@@ -104,7 +104,7 @@ function ChatBot() {
     } catch (error) {
       console.error("Error calling /thread:", error);
       // If connection fails, show error message.
-      setChatHistory([{ sender: "bot", text: "Cô Đồng đang nghỉ ngơi" }]);
+      setChatHistory([{ sender: "bot", text: "Thần đề luận số đang nghỉ ngơi" }]);
       setShowGreeting(false);
     }
     setLoading(false);
