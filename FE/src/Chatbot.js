@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect, useCallback } from "react";
 import axios from "axios";
 import "./ChatBot.css";
 
-const BE_endpoint = "https://59a6a449f4bb091e5320675418f354ee.serveo.net";
+const BE_domain = "https://chatbot.clownflair.org/";
 
 // Helper: Get or create a session ID for today and reset query count if needed.
 function getSessionId() {
@@ -93,7 +93,7 @@ function ChatBot() {
     setChatHistory([{ sender: "bot", text: "Đang gọi Cô Đồng" }]);
     try {
       const response = await axios.post(
-        BE_endpoint + "/thread",
+        BE_domain + "/thread",
         { sessionID: currentSessionId },
         { withCredentials: false }
       );
@@ -128,7 +128,7 @@ function ChatBot() {
         { sender: "user", text: userMessage || suggestionText },
       ]);
       setMessage("");
-      const { data } = await axios.post(BE_endpoint + "/message", {
+      const { data } = await axios.post(BE_domain + "/message", {
         threadID,
         message: userMessage,
       });
