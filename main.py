@@ -5,7 +5,12 @@ import langid
 import re
 import datetime
 import os
+import requests
+import json
 
+
+with open('data/bo_so.json', 'r', encoding='utf-8') as f:
+    bo_so_data = json.load(f)
 
 def is_vietnamese(word):
     lang, _ = langid.classify(word)
@@ -33,6 +38,15 @@ def remove_source(content):
     return re.sub(r'【.*?†.*?】', '', content)
 
 
+def fetch_from_vector_db(message):
+    message = message.lower()
+    for item in bo_so_data:
+        if item['keyword'].lower() in message:
+            numbers = ', '.join(item['associated_numbers'])
+            return f"Kết quả tra cứu từ dữ liệu: '{item['keyword']}' ứng với các số: {numbers}."
+    return None  # k
+
+
 def process_today(text):
     # print(text)
     # # Define a list of keywords related to "hôm nay"
@@ -44,11 +58,38 @@ def process_today(text):
         # Return today's date in "YYYY-MM-DD" format (excluding time)
     return f"Hôm nay ngày: {datetime.date.today().strftime("%Y-%m-%d")}, {text}" 
     # return text
+    
+perplexityAPI = os.environ.get("perplexityAPI", "no key")
 
-secret_value = os.environ.get("openAPI", "No secret found")
+def enrich_prompt_with_perplexity(user_message):
+    url = 'https://api.perplexity.ai/chat/completions'
+    headers = {
+        'Authorization': f'Bearer {perplexityAPI}',
+        'Content-Type': 'application/json'
+    }
+
+    payload = {
+        "model": "sonar",
+        "messages": [
+            {"role": "system", "content": "gợi ý đánh số lô đề dựa trên thông tin từ user."},
+            {"role": "user", "content": user_message + "đánh số gì?"}
+        ],
+        "max_tokens": 200
+    }
+
+    response = requests.post(url, headers=headers, json=payload)
+
+    if response.status_code == 200:
+        result = response.json()
+        print(result)
+        return result['choices'][0]['message']['content']
+    else:
+        return user_message 
+
+openAPI = os.environ.get("openAPI", "no key")
 
 client = OpenAI(
-    api_key=f"{secret_value}"
+    api_key=f"{openAPI}"
 )
 
 prompt_default = """
@@ -106,12 +147,20 @@ def message():
     if not is_valid_vietnamese_sentence(message):
         return jsonify({"reply": "Vui lòng nhập một câu có nội dung hợp lý."})
     
-    message = process_today(message or prompt_default)
+    if message:
+        if fetch_from_vector_db(message) is None:
+            enriched_message = f"Giữ nguyên thông tin này {enrich_prompt_with_perplexity(message)}"
+        else:
+            enriched_message = message
+    else:
+        enriched_message = prompt_default
+
+    enriched_message = process_today(enriched_message)
     
     my_thread_message = client.beta.threads.messages.create(
         thread_id=threadID,
         role="user",
-        content=f"{message}",
+        content=f"{enriched_message}",
     )
     
     my_run = client.beta.threads.runs.create(
@@ -143,20 +192,11 @@ def message():
                 "reply": remove_source(all_messages.data[0].content[0].text.value)
             }), 200
 
-            break
-        elif keep_retrieving_run.status == "queued" or keep_retrieving_run.status == "in_progress":
-            pass
+        elif keep_retrieving_run.status in ["queued", "in_progress"]:
+            continue
         else:
-            print(f"Run status: {keep_retrieving_run.status}")
             break
 
 
-# Remove or comment out this block for Vercel deployment
-# if __name__ == '__main__':
-#     app.run(host='0.0.0.0', port=5001, debug=True)
-
-# --- Add the serverless handler below ---
-from serverless_wsgi import handle_request
-
-def handler(event, context):
-    return handle_request(app, event, context)
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=5001, debug=True)
