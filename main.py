@@ -6,11 +6,7 @@ import re
 import datetime
 import os
 import requests
-import json
 
-
-with open('data/bo_so.json', 'r', encoding='utf-8') as f:
-    bo_so_data = json.load(f)
 
 def is_vietnamese(word):
     lang, _ = langid.classify(word)
@@ -38,15 +34,6 @@ def remove_source(content):
     return re.sub(r'【.*?†.*?】', '', content)
 
 
-def fetch_from_vector_db(message):
-    message = message.lower()
-    for item in bo_so_data:
-        if item['keyword'].lower() in message:
-            numbers = ', '.join(item['associated_numbers'])
-            return f"Kết quả tra cứu từ dữ liệu: '{item['keyword']}' ứng với các số: {numbers}."
-    return None  # k
-
-
 def process_today(text):
     # print(text)
     # # Define a list of keywords related to "hôm nay"
@@ -58,33 +45,6 @@ def process_today(text):
         # Return today's date in "YYYY-MM-DD" format (excluding time)
     return f"Hôm nay ngày: {datetime.date.today().strftime("%Y-%m-%d")}, {text}" 
     # return text
-    
-perplexityAPI = os.environ.get("perplexityAPI", "no key")
-
-def enrich_prompt_with_perplexity(user_message):
-    url = 'https://api.perplexity.ai/chat/completions'
-    headers = {
-        'Authorization': f'Bearer {perplexityAPI}',
-        'Content-Type': 'application/json'
-    }
-
-    payload = {
-        "model": "sonar",
-        "messages": [
-            {"role": "system", "content": "gợi ý đánh số lô đề dựa trên thông tin từ user."},
-            {"role": "user", "content": user_message + "đánh số gì?"}
-        ],
-        "max_tokens": 200
-    }
-
-    response = requests.post(url, headers=headers, json=payload)
-
-    if response.status_code == 200:
-        result = response.json()
-        print(result)
-        return result['choices'][0]['message']['content']
-    else:
-        return user_message 
 
 openAPI = os.environ.get("openAPI", "no key")
 
@@ -147,15 +107,9 @@ def message():
     if not is_valid_vietnamese_sentence(message):
         return jsonify({"reply": "Vui lòng nhập một câu có nội dung hợp lý."})
     
-    if message:
-        if fetch_from_vector_db(message) is None:
-            enriched_message = f"Giữ nguyên thông tin này {enrich_prompt_with_perplexity(message)}"
-        else:
-            enriched_message = message
-    else:
-        enriched_message = prompt_default
+    message = message or prompt_default
 
-    enriched_message = process_today(enriched_message)
+    enriched_message = process_today(message)
     
     my_thread_message = client.beta.threads.messages.create(
         thread_id=threadID,
