@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect, useCallback } from "react";
 import axios from "axios";
 import "./ChatBot.css";
 
-const BE_domain = "https://chatbot.clownflair.org/";
+const BE_domain = "https://chatbotbe.clownflair.org/";
 
 // Helper: Get or create a session ID for today and reset query count if needed.
 function getSessionId() {
