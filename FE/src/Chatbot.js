@@ -2,6 +2,8 @@ import React, { useState, useRef, useEffect, useCallback } from "react";
 import axios from "axios";
 import "./ChatBot.css";
 
+const domainURL = "https://cd0298077e132d34f1094a08c3fd3140.serveo.net";
+
 // Helper: Get or create a session ID for today and reset query count if needed.
 function getSessionId() {
   const storedSession = localStorage.getItem("sessionId");
@@ -91,7 +93,7 @@ function ChatBot() {
     setChatHistory([{ sender: "bot", text: "Đang gọi Cô Đồng" }]);
     try {
       const response = await axios.post(
-        "/thread",
+        domainURL + "/thread",
         { sessionID: currentSessionId },
         { withCredentials: false }
       );
@@ -126,7 +128,7 @@ function ChatBot() {
         { sender: "user", text: userMessage || suggestionText },
       ]);
       setMessage("");
-      const { data } = await axios.post("/message", {
+      const { data } = await axios.post(domainURL + "/message", {
         threadID,
         message: userMessage,
       });
@@ -158,7 +160,7 @@ function ChatBot() {
         <div className="chat-container">
           <div className="chat-header">
             <div className="header-left">
-              <span>Cô Đồng AI</span>
+              <span>Thần đề luận số</span>
             </div>
             <div className="header-right">
               <span className="query-info">
@@ -176,7 +178,7 @@ function ChatBot() {
             <div className="chat-history">
               {showGreeting && (
                 <div className="greeting">
-                  <p>Tôi là Cô Đồng AI, bạn muốn:</p>
+                  <p>Tôi là Thần đề luận số, bạn muốn:</p>
                   <div className="greeting-buttons">
                     <button onClick={handleSuggestion}>{suggestionText}</button>
                     <button onClick={handleDream}>Giải mộng / sổ mơ</button>
