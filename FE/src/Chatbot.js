@@ -104,7 +104,9 @@ function ChatBot() {
     } catch (error) {
       console.error("Error calling /thread:", error);
       // If connection fails, show error message.
-      setChatHistory([{ sender: "bot", text: "Thần đề luận số đang nghỉ ngơi" }]);
+      setChatHistory([
+        { sender: "bot", text: "Thần đề luận số đang nghỉ ngơi" },
+      ]);
       setShowGreeting(false);
     }
     setLoading(false);
@@ -210,6 +212,7 @@ function ChatBot() {
             <div className="chat-input">
               <textarea
                 ref={inputRef}
+                style={{ fontSize: "16px" }}
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
                 placeholder={"Nhập câu hỏi của bạn..."}
@@ -221,8 +224,11 @@ function ChatBot() {
                   }
                 }}
               ></textarea>
-              <button onClick={() => handleSendMessage(message)} disabled={loading}>
-              Gửi
+              <button
+                onClick={() => handleSendMessage(message)}
+                disabled={loading}
+              >
+                Gửi
               </button>
             </div>
           </div>
