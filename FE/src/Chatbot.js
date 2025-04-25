@@ -178,7 +178,7 @@ function ChatBot() {
             <>
               <div className="chat-header">
                 <div className="header-left">
-                  <span>Thần đề luận số V2</span>
+                  <span>Thần đề luận số V2.0</span>
                 </div>
                 <div className="header-right">
                   <span className="query-info">
