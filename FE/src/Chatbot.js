@@ -1,5 +1,7 @@
 import React, { useState, useRef, useEffect, useCallback } from "react";
 import axios from "axios";
+import ReactMarkdown from "react-markdown";
+import remarkBreaks from "remark-breaks";
 import "./ChatBot.css";
 
 const BE_domain = "https://chatbotbev2.clownflair.org/";
@@ -134,20 +136,58 @@ function ChatBot() {
         { sender: "user", text: userMessage || suggestionText },
       ]);
       setMessage("");
-      const { data } = await axios.post(BE_domain + "/message", {
-        threadID,
-        message: userMessage,
-      });
-      setChatHistory((prev) => [...prev, { sender: "bot", text: data.reply }]);
+
+      const eventSource = new EventSource(
+        `${BE_domain}/message?threadID=${threadID}&message=${encodeURIComponent(userMessage)}`
+      );
+      let accumulatedText = "";
+      eventSource.onmessage = (event) => {
+        const data = event.data;
+
+        if (data === "[DONE]") {
+          eventSource.close();
+          setLoading(false);
+          return;
+        }
+
+        if (data.startsWith("[ERROR]")) {
+          setChatHistory((prev) => [
+            ...prev,
+            { sender: "bot", text: data.replace("[ERROR]", "").trim() },
+          ]);
+          eventSource.close();
+          setLoading(false);
+          return;
+        }
+
+        accumulatedText += data;
+        accumulatedText = accumulatedText.replace(/([.!?])\s+/g, "$1\n");
+        setChatHistory((prev) => {
+          const updated = [...prev];
+          const last = updated[updated.length - 1];
+          if (last?.sender === "bot") {
+            last.text = accumulatedText;
+          } else {
+            updated.push({ sender: "bot", text: accumulatedText });
+          }
+          return [...updated];
+        });
+      };
+      eventSource.onerror = (err) => {
+        console.error("EventSource error:", err);
+        eventSource.close();
+        setLoading(false);
+      };
+      eventSource.onopen = () => {
       const newRemaining = decrementRemainingQueries();
       setRemainingQueries(newRemaining);
+      };
     } catch (error) {
       console.error("Error sending message:", error);
       setChatHistory((prev) => [
         ...prev,
         { sender: "bot", text: "Có lỗi xảy ra. Vui lòng thử lại." },
       ]);
-    } finally {
       setLoading(false);
     }
   };
@@ -206,16 +246,24 @@ function ChatBot() {
                   {chatHistory.map((chat, index) => (
                     <div
                       key={index}
-                      className={`chat-message ${
-                        chat.sender === "bot" ? "bot" : "user"
-                      }`}
+                      className={`chat-message ${chat.sender === "bot" ? "bot" : "user right-align"}`}
                     >
-                      <p style={{ margin: 0, whiteSpace: "pre-line" }}>
+                      <ReactMarkdown
+                        remarkPlugins={[remarkBreaks]}
+                        components={{
+                          a: ({ node, ...props }) => (
+                            <a {...props} target="_blank" rel="noopener noreferrer" />
+                          ),
+                          p: ({ node, ...props }) => (
+                            <p style={{ margin: 0 }} {...props} />
+                          ),
+                        }}
+                      >
                         {chat.text}
-                      </p>
+                      </ReactMarkdown>
                     </div>
                   ))}
-                  {loading && (
+                  {loading && chatHistory.length > 0 && chatHistory[chatHistory.length - 1]?.sender !== "bot" && (
                     <div className="chat-message bot loading-message">
                       Đang luận số
                       <span className="dot dot1"></span>
