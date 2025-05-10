@@ -138,7 +138,9 @@ function ChatBot() {
       setMessage("");
 
       const eventSource = new EventSource(
-        `${BE_domain}/message?threadID=${threadID}&message=${encodeURIComponent(userMessage)}`
+        `${BE_domain}/message?threadID=${threadID}&message=${encodeURIComponent(
+          userMessage
+        )}`
       );
       let accumulatedText = "";
       eventSource.onmessage = (event) => {
@@ -161,8 +163,8 @@ function ChatBot() {
         }
 
         accumulatedText += data;
-        accumulatedText = accumulatedText.replace(/([.!?"])\s+/g, "$1\n");
-        accumulatedText = accumulatedText.replace(/:\s*/g, ":\n");
+        accumulatedText = accumulatedText.replace(/(\*\*\-)/g, "\n$1");
+        accumulatedText = accumulatedText.replace(/(\s\*\w)/g, "\n$1");
         setChatHistory((prev) => {
           const updated = [...prev];
           const last = updated[updated.length - 1];
@@ -219,7 +221,7 @@ function ChatBot() {
             <>
               <div className="chat-header">
                 <div className="header-left">
-                  <span>Thần đề luận số V2.0</span>
+                  <span>Thần đề luận số V2.1</span>
                 </div>
                 <div className="header-right">
                   <span className="query-info">
@@ -228,7 +230,10 @@ function ChatBot() {
                   <button className="recharge-button" onClick={handleRecharge}>
                     Nạp Card
                   </button>
-                  <button className="close-chat-button" onClick={handleCloseChat}>
+                  <button
+                    className="close-chat-button"
+                    onClick={handleCloseChat}
+                  >
                     ✕
                   </button>
                 </div>
@@ -239,7 +244,9 @@ function ChatBot() {
                     <div className="greeting">
                       <p>Tôi là Thần đề luận số, bạn muốn:</p>
                       <div className="greeting-buttons">
-                        <button onClick={handleSuggestion}>{suggestionText}</button>
+                        <button onClick={handleSuggestion}>
+                          {suggestionText}
+                        </button>
                         <button onClick={handleDream}>Giải mộng / sổ mơ</button>
                       </div>
                     </div>
@@ -247,13 +254,19 @@ function ChatBot() {
                   {chatHistory.map((chat, index) => (
                     <div
                       key={index}
-                      className={`chat-message ${chat.sender === "bot" ? "bot" : "user right-align"}`}
+                      className={`chat-message ${
+                        chat.sender === "bot" ? "bot" : "user right-align"
+                      }`}
                     >
                       <ReactMarkdown
                         remarkPlugins={[remarkBreaks]}
                         components={{
                           a: ({ node, ...props }) => (
-                            <a {...props} target="_blank" rel="noopener noreferrer" />
+                            <a
+                              {...props}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                            />
                           ),
                           p: ({ node, ...props }) => (
                             <p style={{ margin: 0 }} {...props} />
@@ -264,14 +277,16 @@ function ChatBot() {
                       </ReactMarkdown>
                     </div>
                   ))}
-                  {loading && chatHistory.length > 0 && chatHistory[chatHistory.length - 1]?.sender !== "bot" && (
-                    <div className="chat-message bot loading-message">
-                      Đang luận số
-                      <span className="dot dot1"></span>
-                      <span className="dot dot2"></span>
-                      <span className="dot dot3"></span>
-                    </div>
-                  )}
+                  {loading &&
+                    chatHistory.length > 0 &&
+                    chatHistory[chatHistory.length - 1]?.sender !== "bot" && (
+                      <div className="chat-message bot loading-message">
+                        Đang luận số
+                        <span className="dot dot1"></span>
+                        <span className="dot dot2"></span>
+                        <span className="dot dot3"></span>
+                      </div>
+                    )}
                   <div ref={endOfChatRef} />
                 </div>
                 <div className="chat-input">
