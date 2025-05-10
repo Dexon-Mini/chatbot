@@ -161,7 +161,7 @@ function ChatBot() {
         }
 
         accumulatedText += data;
-        accumulatedText = accumulatedText.replace(/([.!?])\s+/g, "$1\n");
+        accumulatedText = accumulatedText.replace(/([.!?"])\s+/g, "$1\n");
         setChatHistory((prev) => {
           const updated = [...prev];
           const last = updated[updated.length - 1];
@@ -179,8 +179,8 @@ function ChatBot() {
         setLoading(false);
       };
       eventSource.onopen = () => {
-      const newRemaining = decrementRemainingQueries();
-      setRemainingQueries(newRemaining);
+        const newRemaining = decrementRemainingQueries();
+        setRemainingQueries(newRemaining);
       };
     } catch (error) {
       console.error("Error sending message:", error);
