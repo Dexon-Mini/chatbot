@@ -163,8 +163,9 @@ function ChatBot() {
         }
 
         accumulatedText += data;
+        accumulatedText = accumulatedText.replace(/(-\s\*\*\p{L})/gu, "\n$1");
         accumulatedText = accumulatedText.replace(/(\*\*\-)/g, "\n$1");
-        accumulatedText = accumulatedText.replace(/(\s\*\w)/g, "\n$1");
+        accumulatedText = accumulatedText.replace(/(\s\*\p{L})/gu, "\n$1");
         setChatHistory((prev) => {
           const updated = [...prev];
           const last = updated[updated.length - 1];
